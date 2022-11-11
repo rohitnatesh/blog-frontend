@@ -8,6 +8,11 @@ import { AuthenticationProvider } from "./components/AuthenticationContext";
 import SecurePath from "./components/SecurePath";
 import Root from "./routes/root";
 import Home from "./routes/home";
+import SignUp from "./routes/signup";
+
+// Private.
+
+// Public.
 
 const App = () => {
   return (
@@ -15,6 +20,7 @@ const App = () => {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Root />} />
+          <Route path="/signup" element={<SignUp />} />
           <Route
             path="/home"
             element={

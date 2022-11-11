@@ -5,7 +5,7 @@ import { createContext, useContext, useMemo, useState } from "react";
 // Private.
 
 const defaultValue = {
-  isLoggedIn: true,
+  isLoggedIn: false,
 };
 
 // Public.
