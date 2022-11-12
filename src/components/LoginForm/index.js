@@ -38,7 +38,10 @@ const LoginForm = () => {
         body: JSON.stringify(values),
         headers: {
           'Content-Type': 'application/json',
+          Accept: 'application/json',
         },
+        credentials: 'include',
+        mode: 'cors',
       });
 
       if (response.status !== 200) {

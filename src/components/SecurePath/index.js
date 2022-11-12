@@ -1,11 +1,11 @@
 // Libraries.
 
-import { useEffect } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate } from 'react-router-dom';
 
 // Dependencies.
 
-import { useAuthentication } from "../../components/AuthenticationContext";
+import { useAuthentication } from '../../components/AuthenticationContext';
+import Header from '../Header';
 
 // Public.
 
@@ -13,7 +13,7 @@ const SecurePath = ({ children }) => {
   const [auth] = useAuthentication();
 
   if (auth.isLoggedIn) {
-    return children;
+    return <Header>{children}</Header>;
   }
 
   return <Navigate to="/" />;

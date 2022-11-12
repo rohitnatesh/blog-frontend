@@ -24,12 +24,14 @@ const defaultState = {
 const reducer = (state, action) => {
   switch (action.type) {
     case AUTH_ACTION_TYPES.login:
+      sessionStorage.setItem('loginState', JSON.stringify(action.payload));
       return {
         ...state,
         isLoggedIn: true,
         ...action.payload,
       };
     case AUTH_ACTION_TYPES.logout:
+      sessionStorage.removeItem('loginState');
       return {
         ...defaultState,
       };
@@ -38,12 +40,22 @@ const reducer = (state, action) => {
   }
 };
 
+const storedState = sessionStorage.getItem('loginState');
+
+const initializer = (state) =>
+  storedState
+    ? {
+        isLoggedIn: true,
+        ...JSON.parse(storedState),
+      }
+    : state;
+
 // Public.
 
 const AuthenticationContext = createContext([{}, () => {}]);
 
 export const AuthenticationProvider = ({ children }) => {
-  const [authState, dispatch] = useReducer(reducer, defaultState);
+  const [authState, dispatch] = useReducer(reducer, defaultState, initializer);
   const contextValue = useMemo(() => [authState, dispatch], [authState]);
 
   // Output the markup.
