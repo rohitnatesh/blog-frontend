@@ -48,7 +48,24 @@ const validationSchema = Yup.object({
 
 const SignUpForm = () => {
   const navigate = useNavigate();
-  const onSubmitHandler = () => {};
+  const onSubmitHandler = async (values, formikBag) => {
+    console.log(values);
+
+    try {
+      const response = await fetch('http://127.0.0.1:3001/api/users/createUser', {
+        method: 'POST',
+        body: JSON.stringify(values),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+    
+
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const onCancel = () => {
     navigate("/");

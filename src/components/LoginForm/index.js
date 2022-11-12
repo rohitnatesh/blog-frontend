@@ -26,6 +26,7 @@ const validationSchema = Yup.object({
 
 const LoginForm = () => {
   const navigate = useNavigate();
+  const [auth] = useAuthentication();
   const onSubmitHandler = async (values, formikBag) => {
     console.log(values);
 
@@ -37,8 +38,13 @@ const LoginForm = () => {
           'Content-Type': 'application/json',
         },
       });
+      if (response.status === 200){
+        auth.isLoggedIn = true;
+        navigate('home');
+        console.log(response);
+      }
 
-      console.log(response);
+      
     } catch (error) {
       console.error(error);
     }
