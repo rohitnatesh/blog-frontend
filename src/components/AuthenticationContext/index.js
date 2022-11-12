@@ -1,20 +1,50 @@
 // Libraries.
 
-import { createContext, useContext, useMemo, useState } from "react";
+import { createContext, useContext, useMemo, useReducer } from 'react';
+
+// Constants.
+
+export const AUTH_ACTION_TYPES = {
+  login: Symbol('login'),
+  logout: Symbol('logout'),
+};
 
 // Private.
 
-const defaultValue = {
+const defaultState = {
   isLoggedIn: false,
+  id: null,
+  email: null,
+  username: null,
+  birthdate: null,
+  gender: null,
+  age: null,
+};
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case AUTH_ACTION_TYPES.login:
+      return {
+        ...state,
+        isLoggedIn: true,
+        ...action.payload,
+      };
+    case AUTH_ACTION_TYPES.logout:
+      return {
+        ...defaultState,
+      };
+    default:
+      return state;
+  }
 };
 
 // Public.
 
-const AuthenticationContext = createContext(defaultValue);
+const AuthenticationContext = createContext([{}, () => {}]);
 
 export const AuthenticationProvider = ({ children }) => {
-  const [authState, setAuthState] = useState(defaultValue);
-  const contextValue = useMemo(() => [authState, setAuthState], [authState]);
+  const [authState, dispatch] = useReducer(reducer, defaultState);
+  const contextValue = useMemo(() => [authState, dispatch], [authState]);
 
   // Output the markup.
   return (
