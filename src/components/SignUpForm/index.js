@@ -1,6 +1,6 @@
 // Libraries.
 
-import { Formik, Form } from "formik";
+import { Formik, Form } from 'formik';
 import {
   Button,
   Paper,
@@ -10,65 +10,77 @@ import {
   FormControl,
   InputLabel,
   MenuItem,
-} from "@mui/material";
-import * as Yup from "yup";
-import { useNavigate } from "react-router-dom";
+} from '@mui/material';
+import * as Yup from 'yup';
+import { useNavigate } from 'react-router-dom';
 
 // Dependencies.
 
-import { useAuthentication } from "../../components/AuthenticationContext";
+import {
+  useAuthentication,
+  AUTH_ACTION_TYPES,
+} from '../../components/AuthenticationContext';
 
 // Private.
 
 const initialValues = {
-  email: "",
-  password: "",
-  username: "",
-  birthdate: "2022-01-31",
-  gender: "M",
-  securityQuestion: "",
-  securityAnswer: "",
+  email: '',
+  password: '',
+  username: '',
+  birthdate: '2022-01-31',
+  gender: 'M',
+  securityQuestion: '',
+  securityAnswer: '',
 };
 
 const validationSchema = Yup.object({
   email: Yup.string()
-    .email("Enter a valid email")
-    .required("Email address is required"),
+    .email('Enter a valid email')
+    .required('Email address is required'),
   password: Yup.string()
-    .min(5, "Should be minimum 5 characters")
-    .required("Password is required"),
-  username: Yup.string().required("Name is required"),
-  birthdate: Yup.date().required("DOB is required"),
-  gender: Yup.string().oneOf(["M", "F", "O"]).required("Gender is required"),
-  securityQuestion: Yup.string().required("Security question is required"),
-  securityAnswer: Yup.string().required("Security answer is required"),
+    .min(5, 'Should be minimum 5 characters')
+    .required('Password is required'),
+  username: Yup.string().required('Name is required'),
+  birthdate: Yup.date().required('DOB is required'),
+  gender: Yup.string().oneOf(['M', 'F', 'O']).required('Gender is required'),
+  securityQuestion: Yup.string().required('Security question is required'),
+  securityAnswer: Yup.string().required('Security answer is required'),
 });
 
 // Public.
 
 const SignUpForm = () => {
   const navigate = useNavigate();
+  const [, dispatch] = useAuthentication();
+
   const onSubmitHandler = async (values, formikBag) => {
     console.log(values);
 
     try {
-      const response = await fetch('http://127.0.0.1:3001/api/users/createUser', {
-        method: 'POST',
-        body: JSON.stringify(values),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-    
+      const response = await fetch(
+        'http://127.0.0.1:3001/api/users/createUser',
+        {
+          method: 'POST',
+          body: JSON.stringify(values),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
 
-      console.log(response);
+      if (response.status !== 200) {
+        throw new Error('Login failed');
+      }
+
+      const responseData = await response.json();
+      dispatch({ type: AUTH_ACTION_TYPES.login, payload: responseData });
     } catch (error) {
       console.error(error);
     }
   };
 
   const onCancel = () => {
-    navigate("/");
+    navigate('/');
   };
 
   return (
@@ -87,32 +99,32 @@ const SignUpForm = () => {
               type="email"
               error={Boolean(touched.email && errors.email)}
               helperText={touched.email && errors.email}
-              {...getFieldProps("email")}
+              {...getFieldProps('email')}
             />
             <TextField
               label="Password"
               type="password"
               error={Boolean(touched.password && errors.password)}
               helperText={touched.password && errors.password}
-              {...getFieldProps("password")}
+              {...getFieldProps('password')}
             />
             <TextField
               label="Name"
               type="text"
               error={Boolean(touched.username && errors.username)}
               helperText={touched.username && errors.username}
-              {...getFieldProps("username")}
+              {...getFieldProps('username')}
             />
             <TextField
               label="Date of Birth"
               type="date"
               error={Boolean(touched.birthdate && errors.birthdate)}
               helperText={touched.birthdate && errors.birthdate}
-              {...getFieldProps("birthdate")}
+              {...getFieldProps('birthdate')}
             />
             <FormControl>
               <InputLabel id="gender-label">Gender</InputLabel>
-              <Select labelId="gender-label" {...getFieldProps("gender")}>
+              <Select labelId="gender-label" {...getFieldProps('gender')}>
                 <MenuItem value="M">Male</MenuItem>
                 <MenuItem value="F">Female</MenuItem>
                 <MenuItem value="O">Others</MenuItem>
@@ -125,17 +137,17 @@ const SignUpForm = () => {
                 touched.securityQuestion && errors.securityQuestion
               )}
               helperText={touched.securityQuestion && errors.securityQuestion}
-              {...getFieldProps("securityQuestion")}
+              {...getFieldProps('securityQuestion')}
             />
             <TextField
               label="Security Answer"
               type="text"
               error={Boolean(touched.securityAnswer && errors.securityAnswer)}
               helperText={touched.securityAnswer && errors.securityAnswer}
-              {...getFieldProps("securityAnswer")}
+              {...getFieldProps('securityAnswer')}
             />
             <Button variant="contained" color="success" type="submit">
-              Create Account
+              Create Account and Login
             </Button>
           </Form>
         )}

@@ -1,14 +1,12 @@
 // Libraries.
 
-import { Navigate } from "react-router-dom";
-
 // Dependencies.
-import HomePage from "../../components/HomePage";
+import HomePage from '../../components/HomePage';
 
 // Public.
 
 const Home = () => {
-  return <div><HomePage /></div>;
+  return <HomePage />;
 };
 
 export default Home;

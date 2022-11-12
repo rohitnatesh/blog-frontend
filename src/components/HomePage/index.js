@@ -1,32 +1,33 @@
 // Libraries.
 
 import { Button, Paper, TextField, Typography } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
 
 // Dependencies.
 
-import { useAuthentication } from '../../components/AuthenticationContext';
+import {
+  useAuthentication,
+  AUTH_ACTION_TYPES,
+} from '../../components/AuthenticationContext';
 
 // Private.
-
-
 
 // Public.
 
 const HomePage = () => {
-  const navigate = useNavigate();
-  const [auth] = useAuthentication();
+  const [, dispatch] = useAuthentication();
+
   const onLogoutClick = () => {
-    auth.isLoggedIn = false;
-    navigate("/");
+    dispatch({
+      type: AUTH_ACTION_TYPES.logout,
+    });
   };
 
   return (
     <Paper>
       <Typography variant="h2">Home Page</Typography>
-     
+
       <Button variant="outlined" type="button" onClick={onLogoutClick}>
-         Log out
+        Log out
       </Button>
     </Paper>
   );

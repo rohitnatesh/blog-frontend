@@ -7,7 +7,10 @@ import { useNavigate } from 'react-router-dom';
 
 // Dependencies.
 
-import { useAuthentication } from '../../components/AuthenticationContext';
+import {
+  useAuthentication,
+  AUTH_ACTION_TYPES,
+} from '../../components/AuthenticationContext';
 
 // Private.
 
@@ -26,10 +29,9 @@ const validationSchema = Yup.object({
 
 const LoginForm = () => {
   const navigate = useNavigate();
-  const [auth] = useAuthentication();
-  const onSubmitHandler = async (values, formikBag) => {
-    console.log(values);
+  const [, dispatch] = useAuthentication();
 
+  const onSubmitHandler = async (values, formikBag) => {
     try {
       const response = await fetch('http://127.0.0.1:3001/api/users/login', {
         method: 'POST',
@@ -38,13 +40,13 @@ const LoginForm = () => {
           'Content-Type': 'application/json',
         },
       });
-      if (response.status === 200){
-        auth.isLoggedIn = true;
-        navigate('home');
-        console.log(response);
+
+      if (response.status !== 200) {
+        throw new Error('Login failed');
       }
 
-      
+      const responseData = await response.json();
+      dispatch({ type: AUTH_ACTION_TYPES.login, payload: responseData });
     } catch (error) {
       console.error(error);
     }
