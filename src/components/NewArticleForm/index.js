@@ -1,8 +1,10 @@
 // Libraries.
 
 import { Formik, Form } from 'formik';
-import { Button, TextField } from '@mui/material';
-import * as Yup from 'yup';
+import { Button, TextField ,Select,
+  FormControl,
+  InputLabel,
+  MenuItem,} from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 // Dependencies.
@@ -61,6 +63,14 @@ const NewArticleForm = () => {
             helperText={touched.password && errors.password}
             {...getFieldProps('password')}
           />
+          <FormControl>
+              <InputLabel id="gender-label">Gender</InputLabel>
+              <Select labelId="gender-label" {...getFieldProps('gender')}>
+                <MenuItem value="M">Male</MenuItem>
+                <MenuItem value="F">Female</MenuItem>
+                <MenuItem value="O">Others</MenuItem>
+              </Select>
+            </FormControl>
           <Button variant="contained" color="success" type="submit">
             Login
           </Button>

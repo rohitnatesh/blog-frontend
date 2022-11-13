@@ -14,10 +14,26 @@ import {
 const Header = ({ children }) => {
   const [authState, dispatch] = useAuthentication();
 
-  const onLogoutClick = () => {
-    dispatch({
-      type: AUTH_ACTION_TYPES.logout,
-    });
+  const onLogoutClick = async () => {
+    try {
+      const response = await fetch('http://127.0.0.1:3001/api/users/logout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        credentials: 'include',
+        mode: 'cors',
+      });
+
+      if (response.status !== 200) {
+        throw new Error('Logout failed');
+      }
+
+      dispatch({ type: AUTH_ACTION_TYPES.logout});
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
