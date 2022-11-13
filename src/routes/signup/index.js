@@ -6,6 +6,7 @@ import { Navigate } from 'react-router-dom';
 
 import { useAuthentication } from '../../components/AuthenticationContext';
 import SignUpForm from '../../components/SignUpForm';
+import LoginHeader from '../../components/LoginHeader';
 
 // Public.
 
@@ -16,7 +17,11 @@ const SignUp = () => {
     return <Navigate to="/articles" />;
   }
 
-  return <SignUpForm />;
+  return (
+    <LoginHeader>
+      <SignUpForm />
+    </LoginHeader>
+  );
 };
 
 export default SignUp;

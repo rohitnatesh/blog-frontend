@@ -1,10 +1,12 @@
 // Libraries.
 
 import {
+  Alert,
   Button,
   Container,
   Divider,
   Paper,
+  Snackbar,
   Stack,
   TextField,
   Typography,
@@ -17,6 +19,11 @@ import { useState } from 'react';
 
 const CommentBox = ({ articleId, setComments }) => {
   const [comment, setComment] = useState('');
+  const [isSaveSuccess, setIsSaveSuccess] = useState(false);
+
+  const onCloseHandler = () => {
+    setIsSaveSuccess(false);
+  };
 
   const onChangeHandler = (e) => {
     setComment(e.target.value);
@@ -48,36 +55,48 @@ const CommentBox = ({ articleId, setComments }) => {
         throw new Error('Comment failed');
       }
 
+      setComment('');
       const responseData = await response.json();
       const newComment = {
         ...responseData,
         commentTime: responseData.commentTime.split(' ')[0],
       };
       setComments((previousComments) => [...previousComments, newComment]);
+      setIsSaveSuccess(true);
     } catch (error) {
       console.error(error);
     }
   };
 
   return (
-    <Stack mt={4} component="form" onSubmit={handleSubmit}>
-      <TextField
-        onChange={onChangeHandler}
-        value={comment}
-        multiline
-        label="What do you think?"
-        rows={4}
-        fullWidth
-        sx={{ maxWidth: 800 }}
-      />
-      <Button
-        type="submit"
-        sx={{ width: 'fit-content', mt: 2 }}
-        variant="outlined"
+    <>
+      <Stack mt={4} component="form" onSubmit={handleSubmit}>
+        <TextField
+          onChange={onChangeHandler}
+          value={comment}
+          multiline
+          label="What do you think?"
+          rows={4}
+          fullWidth
+          sx={{ maxWidth: 800 }}
+        />
+        <Button
+          type="submit"
+          sx={{ width: 'fit-content', mt: 2 }}
+          variant="outlined"
+        >
+          Post
+        </Button>
+      </Stack>
+      <Snackbar
+        open={isSaveSuccess}
+        autoHideDuration={6000}
+        onClose={onCloseHandler}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
       >
-        Post
-      </Button>
-    </Stack>
+        <Alert severity="success">Comment has been published!</Alert>
+      </Snackbar>
+    </>
   );
 };
 
@@ -103,7 +122,7 @@ const Comments = ({ article }) => {
                 component="article"
                 key={index}
                 variant="elevation"
-                elevation={6}
+                elevation={3}
                 sx={{ pt: 2, pb: 2, pl: 3, pr: 3 }}
               >
                 <Stack

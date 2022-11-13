@@ -1,7 +1,7 @@
 // Libraries.
 
 import { Formik, Form } from 'formik';
-import { Button, Paper, TextField, Typography } from '@mui/material';
+import { Box, Button, TextField, Typography, Stack, Card } from '@mui/material';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 
@@ -60,8 +60,13 @@ const LoginForm = () => {
   };
 
   return (
-    <Paper>
-      <Typography variant="h2">Login</Typography>
+    <Card
+      elevation={3}
+      sx={{ maxWidth: 400, pt: 3, pb: 6, pl: 4, pr: 4, margin: 'auto' }}
+    >
+      <Typography variant="h4" component="h2" sx={{ mb: 4 }}>
+        Login
+      </Typography>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -70,30 +75,43 @@ const LoginForm = () => {
       >
         {({ getFieldProps, touched, errors }) => (
           <Form noValidate>
-            <TextField
-              label="Email Address"
-              type="email"
-              error={Boolean(touched.email && errors.email)}
-              helperText={touched.email && errors.email}
-              {...getFieldProps('email')}
-            />
-            <TextField
-              label="Password"
-              type="password"
-              error={Boolean(touched.password && errors.password)}
-              helperText={touched.password && errors.password}
-              {...getFieldProps('password')}
-            />
-            <Button variant="contained" color="success" type="submit">
-              Login
-            </Button>
+            <Stack spacing={3}>
+              <TextField
+                label="Email Address"
+                type="email"
+                error={Boolean(touched.email && errors.email)}
+                helperText={touched.email && errors.email}
+                {...getFieldProps('email')}
+              />
+              <TextField
+                label="Password"
+                type="password"
+                error={Boolean(touched.password && errors.password)}
+                helperText={touched.password && errors.password}
+                {...getFieldProps('password')}
+              />
+              <Box>
+                <Button
+                  variant="contained"
+                  color="success"
+                  type="submit"
+                  sx={{ mr: 2 }}
+                >
+                  Login
+                </Button>
+                <Button
+                  variant="outlined"
+                  type="button"
+                  onClick={onSignUpClick}
+                >
+                  Sign Up
+                </Button>
+              </Box>
+            </Stack>
           </Form>
         )}
       </Formik>
-      <Button variant="outlined" type="button" onClick={onSignUpClick}>
-        Sign Up
-      </Button>
-    </Paper>
+    </Card>
   );
 };
 

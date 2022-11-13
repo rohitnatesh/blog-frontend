@@ -3,13 +3,15 @@
 import { Formik, Form } from 'formik';
 import {
   Button,
-  Paper,
   TextField,
   Typography,
   Select,
   FormControl,
   InputLabel,
   MenuItem,
+  Card,
+  Stack,
+  Box,
 } from '@mui/material';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
@@ -54,8 +56,6 @@ const SignUpForm = () => {
   const [, dispatch] = useAuthentication();
 
   const onSubmitHandler = async (values, formikBag) => {
-    console.log(values);
-
     try {
       const response = await fetch(
         'http://127.0.0.1:3001/api/users/createUser',
@@ -64,7 +64,10 @@ const SignUpForm = () => {
           body: JSON.stringify(values),
           headers: {
             'Content-Type': 'application/json',
+            Accept: 'application/json',
           },
+          credentials: 'include',
+          mode: 'cors',
         }
       );
 
@@ -84,8 +87,13 @@ const SignUpForm = () => {
   };
 
   return (
-    <Paper>
-      <Typography variant="h2">Sign Up</Typography>
+    <Card
+      elevation={3}
+      sx={{ maxWidth: 400, pt: 3, pb: 6, pl: 4, pr: 4, margin: 'auto' }}
+    >
+      <Typography variant="h4" component="h2" sx={{ mb: 4 }}>
+        Sign Up
+      </Typography>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -94,73 +102,84 @@ const SignUpForm = () => {
       >
         {({ getFieldProps, touched, errors }) => (
           <Form noValidate>
-            <TextField
-              label="Email Address"
-              type="email"
-              error={Boolean(touched.email && errors.email)}
-              helperText={touched.email && errors.email}
-              {...getFieldProps('email')}
-            />
-            <TextField
-              label="Password"
-              type="password"
-              error={Boolean(touched.password && errors.password)}
-              helperText={touched.password && errors.password}
-              {...getFieldProps('password')}
-            />
-            <TextField
-              label="Name"
-              type="text"
-              error={Boolean(touched.username && errors.username)}
-              helperText={touched.username && errors.username}
-              {...getFieldProps('username')}
-            />
-            <TextField
-              label="Date of Birth"
-              type="date"
-              error={Boolean(touched.birthdate && errors.birthdate)}
-              helperText={touched.birthdate && errors.birthdate}
-              {...getFieldProps('birthdate')}
-            />
-            <FormControl>
-              <InputLabel id="gender-label">Gender</InputLabel>
-              <Select labelId="gender-label" {...getFieldProps('gender')}>
-                <MenuItem value="M">Male</MenuItem>
-                <MenuItem value="F">Female</MenuItem>
-                <MenuItem value="O">Others</MenuItem>
-              </Select>
-            </FormControl>
-            <TextField
-              label="Security Question"
-              type="text"
-              error={Boolean(
-                touched.securityQuestion && errors.securityQuestion
-              )}
-              helperText={touched.securityQuestion && errors.securityQuestion}
-              {...getFieldProps('securityQuestion')}
-            />
-            <TextField
-              label="Security Answer"
-              type="text"
-              error={Boolean(touched.securityAnswer && errors.securityAnswer)}
-              helperText={touched.securityAnswer && errors.securityAnswer}
-              {...getFieldProps('securityAnswer')}
-            />
-            <Button variant="contained" color="success" type="submit">
-              Create Account and Login
-            </Button>
+            <Stack spacing={3}>
+              <TextField
+                label="Email Address"
+                type="email"
+                error={Boolean(touched.email && errors.email)}
+                helperText={touched.email && errors.email}
+                {...getFieldProps('email')}
+              />
+              <TextField
+                label="Password"
+                type="password"
+                error={Boolean(touched.password && errors.password)}
+                helperText={touched.password && errors.password}
+                {...getFieldProps('password')}
+              />
+              <TextField
+                label="Name"
+                type="text"
+                error={Boolean(touched.username && errors.username)}
+                helperText={touched.username && errors.username}
+                {...getFieldProps('username')}
+              />
+              <TextField
+                label="Date of Birth"
+                type="date"
+                error={Boolean(touched.birthdate && errors.birthdate)}
+                helperText={touched.birthdate && errors.birthdate}
+                {...getFieldProps('birthdate')}
+              />
+              <FormControl>
+                <InputLabel id="gender-label" sx={{ bgcolor: '#FFF' }}>
+                  Gender
+                </InputLabel>
+                <Select labelId="gender-label" {...getFieldProps('gender')}>
+                  <MenuItem value="M">Male</MenuItem>
+                  <MenuItem value="F">Female</MenuItem>
+                  <MenuItem value="O">Others</MenuItem>
+                </Select>
+              </FormControl>
+              <TextField
+                label="Security Question"
+                type="text"
+                error={Boolean(
+                  touched.securityQuestion && errors.securityQuestion
+                )}
+                helperText={touched.securityQuestion && errors.securityQuestion}
+                {...getFieldProps('securityQuestion')}
+              />
+              <TextField
+                label="Security Answer"
+                type="text"
+                error={Boolean(touched.securityAnswer && errors.securityAnswer)}
+                helperText={touched.securityAnswer && errors.securityAnswer}
+                {...getFieldProps('securityAnswer')}
+              />
+              <Box>
+                <Button
+                  variant="contained"
+                  color="success"
+                  type="submit"
+                  sx={{ mr: 2 }}
+                >
+                  Create Account and Login
+                </Button>
+                <Button
+                  variant="outlined"
+                  color="warning"
+                  type="button"
+                  onClick={onCancel}
+                >
+                  Cancel
+                </Button>
+              </Box>
+            </Stack>
           </Form>
         )}
       </Formik>
-      <Button
-        variant="outlined"
-        color="warning"
-        type="button"
-        onClick={onCancel}
-      >
-        Cancel
-      </Button>
-    </Paper>
+    </Card>
   );
 };
 

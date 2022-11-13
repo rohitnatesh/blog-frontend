@@ -46,8 +46,10 @@ const SimilarReading = ({ article }) => {
   }, [articleId, category.id]);
 
   return articles.length ? (
-    <Container component="section">
-      <Typography variant="h4">Read more in {category.name}</Typography>
+    <Container component="section" sx={{ mt: 5 }}>
+      <Typography variant="h4" mb={3}>
+        More in {category.name}
+      </Typography>
       <AllArticles articles={articles} />
     </Container>
   ) : null;

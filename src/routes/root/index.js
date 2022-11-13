@@ -6,6 +6,7 @@ import { Navigate } from 'react-router-dom';
 
 import { useAuthentication } from '../../components/AuthenticationContext';
 import LoginForm from '../../components/LoginForm';
+import LoginHeader from '../../components/LoginHeader';
 
 // Public.
 
@@ -17,9 +18,9 @@ const Root = () => {
   }
 
   return (
-    <div>
+    <LoginHeader>
       <LoginForm />
-    </div>
+    </LoginHeader>
   );
 };
 

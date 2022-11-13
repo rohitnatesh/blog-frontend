@@ -9,6 +9,7 @@ import { useParams } from 'react-router-dom';
 import Article from '../../components/Article';
 import SimilarReading from '../../components/SimilarReading';
 import Comments from '../../components/Comments';
+import AgeRestricted from '../../components/AgeRestricted';
 
 // Public.
 
@@ -16,6 +17,7 @@ const SpecificArticle = () => {
   const { articleId } = useParams();
   const [article, setArticle] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+  const [ageRestricted, setAgeRestricted] = useState(false);
 
   useEffect(() => {
     const fn = async () => {
@@ -33,6 +35,15 @@ const SpecificArticle = () => {
         );
 
         if (response.status !== 200) {
+          if (response.status === 403) {
+            const responseData = await response.json();
+
+            if (responseData.error === 'AGE_RESTRICTION') {
+              setAgeRestricted(true);
+              return;
+            }
+          }
+
           throw new Error('Failed to fetch article');
         }
 
@@ -46,6 +57,10 @@ const SpecificArticle = () => {
 
     fn();
   }, [articleId]);
+
+  if (ageRestricted) {
+    return <AgeRestricted />;
+  }
 
   return isLoading ? (
     <CircularProgress />

@@ -9,7 +9,7 @@ const Article = ({ article }) => {
   let [date] = publishTime.split('T');
 
   return (
-    <Container sx={{ mt: 5, mb: 7 }} component="article">
+    <Container sx={{ mt: 5, mb: 5 }} component="article">
       <Typography sx={{ fontSize: 22 }} color="text.secondary" gutterBottom>
         {category.name}
       </Typography>

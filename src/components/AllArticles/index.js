@@ -19,11 +19,12 @@ import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRou
 
 // Public.
 
-const AllArticles = ({ articles }) => {
+const AllArticles = ({ articles, isNewArticleButtonVisible }) => {
   const navigate = useNavigate();
 
   const onReadHandler = (articleId) => {
     navigate(`/articles/${articleId}`);
+    window.scrollTo(0, 0);
   };
 
   const onNewArticleClick = () => {
@@ -32,28 +33,30 @@ const AllArticles = ({ articles }) => {
 
   return (
     <Grid container spacing={2}>
-      <Grid item>
-        <Card
-          variant="elevation"
-          elevation={3}
-          sx={{
-            width: 350,
-            height: 200,
-            border: 'none',
-            cursor: 'pointer',
-          }}
-          component="button"
-          type="button"
-          onClick={onNewArticleClick}
-        >
-          <Stack spacing={2} alignItems="center">
-            <AddCircleOutlineRoundedIcon fontSize="large" />
-            <Typography variant="h5" component="span">
-              New Article
-            </Typography>
-          </Stack>
-        </Card>
-      </Grid>
+      {isNewArticleButtonVisible ? (
+        <Grid item>
+          <Card
+            variant="elevation"
+            elevation={3}
+            sx={{
+              width: 350,
+              height: 200,
+              border: 'none',
+              cursor: 'pointer',
+            }}
+            component="button"
+            type="button"
+            onClick={onNewArticleClick}
+          >
+            <Stack spacing={1} alignItems="center">
+              <AddCircleOutlineRoundedIcon fontSize="large" />
+              <Typography variant="h5" component="span">
+                New Article
+              </Typography>
+            </Stack>
+          </Card>
+        </Grid>
+      ) : null}
 
       {articles.map((article, index) => {
         const [date] = article.publishTime.split('T');

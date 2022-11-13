@@ -40,7 +40,11 @@ const Article = () => {
     fn();
   }, []);
 
-  return isLoading ? <CircularProgress /> : <AllArticles articles={articles} />;
+  return isLoading ? (
+    <CircularProgress />
+  ) : (
+    <AllArticles articles={articles} isNewArticleButtonVisible />
+  );
 };
 
 export default Article;
