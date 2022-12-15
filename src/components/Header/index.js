@@ -26,14 +26,12 @@ const Header = ({ children }) => {
 
   const onLogoutClick = async () => {
     try {
-      const response = await fetch('http://127.0.0.1:3001/api/users/logout', {
+      const response = await fetch('/api/users/logout', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',
         },
-        credentials: 'include',
-        mode: 'cors',
       });
 
       if (response.status !== 200) {

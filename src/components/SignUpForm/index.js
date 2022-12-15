@@ -57,19 +57,14 @@ const SignUpForm = () => {
 
   const onSubmitHandler = async (values, formikBag) => {
     try {
-      const response = await fetch(
-        'http://127.0.0.1:3001/api/users/createUser',
-        {
-          method: 'POST',
-          body: JSON.stringify(values),
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-          },
-          credentials: 'include',
-          mode: 'cors',
-        }
-      );
+      const response = await fetch('/api/users/createUser', {
+        method: 'POST',
+        body: JSON.stringify(values),
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+      });
 
       if (response.status !== 200) {
         throw new Error('Login failed');

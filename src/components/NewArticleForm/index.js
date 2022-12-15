@@ -43,15 +43,13 @@ const NewArticleForm = ({ categories }) => {
 
   const onSubmitHandler = async (values, formikBag) => {
     try {
-      const response = await fetch('http://127.0.0.1:3001/api/articles', {
+      const response = await fetch('/api/articles', {
         method: 'POST',
         body: JSON.stringify(values),
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',
         },
-        credentials: 'include',
-        mode: 'cors',
       });
 
       if (response.status !== 200) {

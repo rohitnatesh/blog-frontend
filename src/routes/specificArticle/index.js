@@ -22,17 +22,12 @@ const SpecificArticle = () => {
   useEffect(() => {
     const fn = async () => {
       try {
-        const response = await fetch(
-          `http://127.0.0.1:3001/api/articles/${articleId}`,
-          {
-            headers: {
-              'Content-Type': 'application/json',
-              Accept: 'application/json',
-            },
-            credentials: 'include',
-            mode: 'cors',
-          }
-        );
+        const response = await fetch(`/api/articles/${articleId}`, {
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+          },
+        });
 
         if (response.status !== 200) {
           if (response.status === 403) {

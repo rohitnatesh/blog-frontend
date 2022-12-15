@@ -16,13 +16,11 @@ const NewArticle = () => {
   useEffect(() => {
     const fn = async () => {
       try {
-        const response = await fetch('http://127.0.0.1:3001/api/categories', {
+        const response = await fetch('/api/categories', {
           headers: {
             'Content-Type': 'application/json',
             Accept: 'application/json',
           },
-          credentials: 'include',
-          mode: 'cors',
         });
 
         if (response.status !== 200) {

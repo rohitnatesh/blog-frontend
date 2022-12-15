@@ -17,14 +17,12 @@ const SimilarReading = ({ article }) => {
     const fn = async () => {
       try {
         const response = await fetch(
-          `http://127.0.0.1:3001/api/articles?categoryId=${category.id}`,
+          `/api/articles?categoryId=${category.id}`,
           {
             headers: {
               'Content-Type': 'application/json',
               Accept: 'application/json',
             },
-            credentials: 'include',
-            mode: 'cors',
           }
         );
 

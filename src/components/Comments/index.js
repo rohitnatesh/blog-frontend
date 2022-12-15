@@ -40,15 +40,13 @@ const CommentBox = ({ articleId, setComments }) => {
     };
 
     try {
-      const response = await fetch('http://127.0.0.1:3001/api/comments', {
+      const response = await fetch('/api/comments', {
         method: 'POST',
         body: JSON.stringify(requestBody),
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',
         },
-        credentials: 'include',
-        mode: 'cors',
       });
 
       if (response.status !== 200) {
